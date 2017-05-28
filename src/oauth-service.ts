@@ -459,6 +459,7 @@ export class OAuthService {
     
     logOut(noRedirectToLogoutUrl: boolean = false) {
         var id_token = this.getIdToken();
+        var access_token = this.getAccessToken();
         this._storage.removeItem("access_token");
         this._storage.removeItem("id_token");
         this._storage.removeItem("refresh_token");
@@ -474,7 +475,7 @@ export class OAuthService {
         
         // For backward compatibility
         if (this.logoutUrl.indexOf('{{') > -1) {
-            logoutUrl = this.logoutUrl.replace(/\{\{id_token\}\}/, id_token);
+            logoutUrl = this.logoutUrl.replace(/\{\{id_token\}\}/, id_token).replace(/\{\{access_token\}\}/, access_token)
         }
         else {
             logoutUrl = this.logoutUrl + "?id_token_hint=" 
